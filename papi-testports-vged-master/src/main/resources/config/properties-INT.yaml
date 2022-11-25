@@ -1,0 +1,13 @@
+apiPath: "/int/papi-testports-vged/api/v1/*"
+
+secure:
+   port:
+      external: "8081"
+      internal: "8091"
+
+mule:
+  env: "INT"
+
+retries:
+  maxAttempt: "3"
+  millisecondsBetweenRetries: "5000"

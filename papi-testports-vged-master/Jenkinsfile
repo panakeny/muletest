@@ -1,0 +1,33 @@
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+
+def muleLib = new es.vged.mulesoft.mulesharedlibrary.muleShdLib()
+
+def apiName="papi-testports-vged"
+def isRuntimeFabricApp="false"
+def emailList = "cristian.reche@concatel"
+
+pipeline {
+  agent {
+    kubernetes {
+      label 'mulesoft-agent'
+      yaml libraryResource('es/vged/mulesoft/k8s_specs/mulePodSpecs.yaml')
+    }
+  }
+  stages {
+      stage('Build Mulesoft project') {
+          steps {
+              script {
+                  try {
+                    muleLib.runMulesoftPipeline(apiName,isRuntimeFabricApp)
+
+                  } catch (e) {
+                      currentBuild.result = "FAILED"
+                      muleLib.notifyBuildStatus(currentBuild.result, emailList)
+                      throw e
+                  }
+              }
+          }
+      }
+  }
+}

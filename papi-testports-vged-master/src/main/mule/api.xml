@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<http:listener-config name="HTTP_Listener_puerto8081" doc:name="HTTP Listener config" doc:id="09ededa6-076d-4b1a-ac8f-9f107a06bb01" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_puerto8091" doc:name="HTTP Listener config" doc:id="30c9bcee-fe55-4b42-8465-75d974d4757b" >
+		<http:listener-connection host="0.0.0.0" port="8091" />
+	</http:listener-config>
+	<flow name="apiFlow" doc:id="fd4dc342-90c1-4fac-bd63-e83bcaf53f91" >
+		<http:listener doc:name="Listener" doc:id="8cfc28af-dbb4-4bc0-87f8-1d5e9aac329f" config-ref="HTTP_Listener_puerto8081" path="/api/puerto8081"/>
+		<set-payload value="OK 8081" doc:name="Set Payload" doc:id="8487a621-5724-43dd-9e17-4ee1de8db8e6" />
+	</flow>
+	<flow name="apiFlow1" doc:id="d2fe575e-77a2-4dfd-a83d-10ae0cbf4a51" >
+		<http:listener doc:name="Listener" doc:id="3773787b-ccb0-466b-8036-cdc5e0a7cea9" path="/api/puerto8091" config-ref="HTTP_Listener_puerto8091"/>
+		<set-payload value="OK 8091" doc:name="Set Payload" doc:id="cf4b0f63-cfb9-4922-b186-c4327f8601f9" />
+	</flow>
+</mule>

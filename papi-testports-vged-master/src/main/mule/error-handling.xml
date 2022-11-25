@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<error-handler name="Global_Error_Handler">
+		<on-error-propagate type="APIKIT:BAD_REQUEST">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "400",
+	message: "Bad request",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[400]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="842fb6a6-febd-48a7-a265-263a0bfd7cc9" variableName="httpStatus"/>
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_FOUND">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "404",
+	message: "Resource not found",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[404]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="13389b4a-f0f8-4395-8656-9a96c44040b6" variableName="httpStatus" />
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:METHOD_NOT_ALLOWED">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "405",
+	message: "Method not allowed",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[405]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="9e13bfa0-8d1d-43e7-ad86-57e3b08c7dce" variableName="httpStatus" />
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "406",
+	message: "Unsupported media type",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[406]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="ab5de2e2-15d0-4311-8cbb-02937c58fdfa" variableName="httpStatus" />
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "415",
+	message: "Unsupported media type",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[415]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="58149c62-36aa-40fc-8491-066a9a55eaa9" variableName="httpStatus" />
+            </on-error-propagate>
+            <on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+                <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+                    <ee:message>
+                        <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "501",
+	message: "Not Implemented",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+                    </ee:message>
+                    <ee:variables>
+                        <ee:set-variable variableName="httpStatus"><![CDATA[501]]></ee:set-variable>
+                    </ee:variables>
+                </ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="701c64dc-8fc2-43f1-8419-0a813d24ca23" variableName="httpStatus" />
+            </on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="979febcc-60f6-4cf2-a72b-bffa969d9016" type="HTTP:CONNECTIVITY">
+			<ee:transform doc:name="Error" doc:id="1b050de4-f4dc-4709-b9d1-cda754aabb0c">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "500",
+	message: "Internal Server Error",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="02c109b3-c08c-4db8-abd3-4dd1ca925e7e" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="f610ec12-1426-4624-b05a-1f0790f79bf7" type="HTTP:TIMEOUT" >
+			<ee:transform doc:name="Error" doc:id="0e82b421-9da0-4c74-a11a-e6a1b0665f58" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "408",
+	message: "Request timeout",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="4ee58c05-2269-48f6-8f1a-b3662a196cb6" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c0143d9e-9ccb-4063-a337-705fd9b44e47" type="HTTP:BAD_REQUEST" >
+			<ee:transform doc:name="Error" doc:id="7f8264e2-855d-4730-9af0-85daf1929ba7" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "400",
+	message: "Bad request",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="513304f1-3907-4937-ac21-36490aa75f57" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="abe6fb14-433e-49f7-b68d-1ad7dda48c31" type="HTTP:FORBIDDEN">
+			<ee:transform doc:name="Error" doc:id="6bc8037f-84bc-48a8-b1b5-99a439461318">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "403",
+	message: "Forbidden",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="d5cd83a9-d9b2-4103-9407-3531b321ffeb" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="90a68d37-037a-49a2-87e0-c4e5b941a512" type="HTTP:CLIENT_SECURITY" >
+			<ee:transform doc:name="Error" doc:id="e2cbda4d-1d8f-474e-a47a-8e8d247588ee" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "403",
+	message: "Unauthorized",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="8ac146c9-7003-4c69-9b8b-c953e7e40376" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="35f48fc5-28c6-4e74-ade5-6bf7af91f4d3" type="HTTP:INTERNAL_SERVER_ERROR">
+			<ee:transform doc:name="Error" doc:id="5ef788da-54eb-4ed9-b500-44a9a481b970">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "500",
+	message: "Internal Server Error",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="e95f95c7-a789-416d-b7b0-7f2aabb232ef" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="039b5ba1-00b6-4fcb-abf8-f4e73388d589" type="HTTP:METHOD_NOT_ALLOWED">
+			<ee:transform doc:name="Error" doc:id="f30465d9-ffcf-442f-95dc-c188d3bc8905">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "405",
+	message: "Method Not Allowed",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="376f041f-63c9-4f2d-af0c-ed10727f7162" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="ae82e552-2810-4181-bc46-5b551c9c4c74" type="HTTP:NOT_FOUND">
+			<ee:transform doc:name="Error" doc:id="e085d06d-51da-449c-a019-91a13230d749">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "404",
+	message: "Not Found",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="91d0ec67-9eba-4132-8aac-48c7f70f96eb" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="c1171f0a-f2ed-4911-8a70-f105e019707f" type="HTTP:SERVICE_UNAVAILABLE">
+			<ee:transform doc:name="Error" doc:id="64ab6938-003e-48db-a008-141d8d153ea6">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "503",
+	message: "Service Unavailable",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="25ff8b60-ba9d-4e66-885b-9938544a2ab5" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8c65b39c-af71-411e-a0fc-6ac35edbe331" type="HTTP:UNAUTHORIZED">
+			<ee:transform doc:name="Error" doc:id="683f502e-1d23-40d7-9c9c-01f2288ace47">
+				<ee:message>
+					<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "401",
+	message: "Unauthorized",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="e912281a-057c-4ed6-99fe-07a5462e87eb" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1082921e-f130-464e-bd81-c14c28fd7bdb" type="HTTP:UNSUPPORTED_MEDIA_TYPE" >
+			<ee:transform doc:name="Error" doc:id="47464451-d1cf-4862-b1bd-fd7b9422a4ec" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "415",
+	message: "Unsupported Media Type",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="edd1f434-e434-40f9-8d38-a634e25092eb" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="8d9f11c3-1b02-4b79-8a87-af93f1ac88a5" type="HTTP:SECURITY" >
+			<ee:transform doc:name="Error" doc:id="693b617b-75da-4319-94f3-ec1e8d68f8a6" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "401",
+	message: "Unauthorized",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="8bfe785d-b89d-4180-8b5c-4a8bcef64cf2" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="a8472501-a012-413a-9704-3cdf7d9eece8" type="HTTP:SERVER_SECURITY" >
+			<ee:transform doc:name="Error" doc:id="593bfd24-a45c-48e0-b7d5-7525e9c967ee" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "401",
+	message: "Unauthorized",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="97a5ab2f-d8b0-4b57-8a85-aa7b2ba670ea" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="467fa2f2-5747-478c-9bed-04a37ef0bd42" type="HTTP:TOO_MANY_REQUESTS" >
+			<ee:transform doc:name="Error" doc:id="6beba050-bd8c-4c99-9c24-f68aefeede21" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "413",
+	message: " Request Entity Too Large",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="10e633e0-fce6-47ad-8161-c38b6e638bc0" variableName="httpStatus" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="61d48ece-4562-4ab2-b781-07bad2728ec6">
+			<ee:transform doc:name="Error" doc:id="e3577752-1f5e-44b4-a5f7-ccd3e39cae95" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	code: "500",
+	message: "Internal Server Error",
+	moreInformation: {
+		description: error.description  as String default "",
+		
+	}
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+			<set-variable value="#[payload.code]" doc:name="Set StatusCode" doc:id="2651a46d-38af-43c5-858e-016a2deafe17" variableName="httpStatus" />
+		</on-error-propagate>
+	</error-handler>	
+	
+	</mule>
